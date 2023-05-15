@@ -1,20 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { RequestService } from '../request/request.service';
 import { DatabaseService } from '../database/database.service';
-
+import { UpdateUniversityDto } from '../database/dto/updateUniversityDTO/update.university.dto';
+import { CreateStudentDto } from '../database/dto/createStudentDTO/create.student.dto';
+import { Student } from '../database/schema/schema';
 @Injectable()
 export class ExamService {
   constructor(
     private readonly requestService: RequestService,
-    private readonly db: DatabaseService,
+    private readonly database: DatabaseService,
   ) {}
 
   public async takeExam(date) {
     const titles = await this.requestService.getTitles(date);
-    // Öğrencileri db den çek. Proje ilk açıldığında öğrencileri çekip db ye kayıt et
-    const students = await this.db.getAllStudent();
 
-    const universities = await this.db.getAllUniversities();
+    const students = await this.database.getAllStudents();
+
+    const universities = await this.database.getAllUniversity();
 
     students.map((student) => {
       const name = student.name + '_' + student.lastname;
@@ -27,17 +29,21 @@ export class ExamService {
 
     students.sort((a, b) => b.score - a.score);
 
-    // Yerleştirmeyi yap
-    students.map((student) => {
-      const suitableUniversity = universities.find(
-        (university) => university.students.length < university.quota,
-      );
+    await Promise.all(students.map(async(student) => {
+      const suitableUniversity = universities.find((university) => university.students.length < university.quota);
       if (suitableUniversity) {
-        suitableUniversity.students.push(student);
+        const studentObject: Student = {
+          name: student.name,
+          lastname: student.lastname,
+          score: student.score,
+        };
+        suitableUniversity.students.push(studentObject);
+        await this.database.updateUniversity(suitableUniversity.id,suitableUniversity);
       }
-    });
+    }));
 
-    return universities;
+    const finalResult = await this.database.getAllUniversity();
+    return finalResult;
   }
 
   private countMatchingChars(name, title) {

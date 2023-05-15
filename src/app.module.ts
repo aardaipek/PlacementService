@@ -10,10 +10,36 @@ import { ValidationService } from './services/validation/validation.service';
 import { DatabaseService } from './services/database/database.service';
 import { ExamService } from './services/exam/exam.service';
 import { UniversityService } from './services/university/university.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import {
+  StudentSchema,
+  UniversitySchema,
+} from './services/database/schema/schema';
+import { StudentService } from './services/student/student.service';
 
 @Module({
-  imports: [HttpModule],
-  controllers: [AppController, StudentController, UniversityController, ExamController],
-  providers: [AppService, RequestService, ValidationService, DatabaseService, ExamService, UniversityService],
+  imports: [
+    HttpModule,
+    MongooseModule.forRoot(process.env.MONGO_DB_URL),
+    MongooseModule.forFeature([
+      { name: 'student', schema: StudentSchema },
+      { name: 'university', schema: UniversitySchema },
+    ]),
+  ],
+  controllers: [
+    AppController,
+    StudentController,
+    UniversityController,
+    ExamController,
+  ],
+  providers: [
+    AppService,
+    RequestService,
+    ValidationService,
+    DatabaseService,
+    ExamService,
+    UniversityService,
+    StudentService,
+  ],
 })
 export class AppModule {}

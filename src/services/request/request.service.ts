@@ -20,7 +20,7 @@ export class RequestService {
     return data;
   }
 
-  public async getStudents(count = 12) {
+  public async getStudents(count = 1000) {
     const url = `https://randomuser.me/api/?results=${count}`;
     const data = await this.sender(url);
     return data.results;

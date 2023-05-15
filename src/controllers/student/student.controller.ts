@@ -9,28 +9,53 @@ import {
   Request,
 } from '@nestjs/common';
 import { RequestService } from '../../services/request/request.service';
+import { CreateStudentDto } from '../../services/database/dto/createStudentDTO/create.student.dto';
+import { DatabaseService } from '../../services/database/database.service';
 
 @Controller('student')
 export class StudentController {
-  constructor(private readonly requestService: RequestService) {}
+  constructor(
+    private readonly requestService: RequestService,
+    private readonly database: DatabaseService,
+  ) {}
+
   @Get(':id')
-  async GetStudent(@Param('id') id: number) {
-    return id + ' id li ogrenci';
+  public async GetStudent(@Param('id') id: string) {
+    try{
+      const student = await this.database.getStudent(id);
+      return student;
+    }catch(err){
+      return err;
+    }
   }
 
   @Get()
-  async GetAllStudents(@Req() request: Request) {
-    const result = await this.requestService.getStudents();
-    return result;
+  public async GetAllStudents(@Req() request: Request) {
+    try{
+      const students = await this.database.getAllStudents();
+      return students;
+    }catch(err){
+      return err;
+    }
   }
 
   @Post()
-  async AddStudent(@Body() data) {
-    return data;
+  public async AddStudent(@Body() data: CreateStudentDto) {
+    try{
+      const newStudent = await this.database.createStudent(data);
+      return newStudent;
+    }catch(err){
+      return err;
+    }
   }
 
   @Delete(':id')
-  async DeleteStudent(@Param('id') id: number) {
-    return id + ' id li ogrenci silindi';
+  public async DeleteStudent(@Param('id') id: string) {
+    try{
+      const deletedStudent = await this.database.deleteStudent(id);
+      return deletedStudent;
+    }catch(err){
+      return err;
+    }
   }
 }
