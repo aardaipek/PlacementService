@@ -20,7 +20,7 @@ import { StudentService } from './services/student/student.service';
 @Module({
   imports: [
     HttpModule,
-    MongooseModule.forRoot(process.env.MONGO_DB_URL),
+    MongooseModule.forRoot("mongodb+srv://admin:admin@university.0a0kcgt.mongodb.net/?retryWrites=true&w=majority"),
     MongooseModule.forFeature([
       { name: 'student', schema: StudentSchema },
       { name: 'university', schema: UniversitySchema },
