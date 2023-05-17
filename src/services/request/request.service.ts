@@ -21,19 +21,19 @@ export class RequestService {
   }
 
   public async getStudents(count = 1000) {
-    const url = `https://randomuser.me/api/?results=${count}`;
+    const url = process.env.USER_API_URL + count;
     const data = await this.sender(url);
     return data.results;
   }
 
-  public async getTitles(date = '2023/05/10') {
-    const url = `https://wikimedia.org/api/rest_v1/metrics/pageviews/top/tr.wikipedia/all-access/${date}`;
+  public async getTitles(date) {
+    const url = process.env.ARTICLES_API_URL + date;
     const data = await this.sender(url);
     return data.items[0].articles;
   }
 
   public async getUniversities(country) {
-    const url = `http://universities.hipolabs.com/search?country=${country}`;
+    const url = process.env.UNIVERSITIES_URL + country;
     const data = await this.sender(url);
     return data;
   }

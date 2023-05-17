@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { RequestService } from '../request/request.service';
 import { UpdateUniversityDto } from '../../core/dtos/update.university.dto';
 import { CreateStudentDto } from '../../core/dtos/create.student.dto';
-import { Student } from '../../core/schema/schema';
-import { StudentRepository } from '../../core/repositories/student/student.repository';
-import { UniversityRepository } from '../../core/repositories/university/university.repository';
+import { Student } from '../../core/schemas/student';
+import { StudentRepository } from '../../core/repositories/student.repository';
+import { UniversityRepository } from '../../core/repositories/university.repository';
 @Injectable()
 export class ExamService {
   constructor(

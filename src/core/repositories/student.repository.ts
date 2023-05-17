@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateStudentDto } from '../../dtos/create.student.dto';
-import { UpdateStudentDto } from '../../dtos/update.student.dto';
-import { IStudent } from '../../interfaces/student.interface';
+import { CreateStudentDto } from '../dtos/create.student.dto';
+import { UpdateStudentDto } from '../dtos/update.student.dto';
+import { IStudent } from '../interfaces/student.interface';
 import { Model } from 'mongoose';
-import { RequestService } from '../../../services/request/request.service';
-import { StudentService } from '../../../services/student/student.service';
+import { RequestService } from '../../services/request/request.service';
+import { StudentService } from '../../services/student/student.service';
 
 @Injectable()
 export class StudentRepository {

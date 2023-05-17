@@ -17,9 +17,11 @@ import { UtilService } from './services/utils/util.service';
 import { ExamService } from './services/exam/exam.service';
 import { UniversityService } from './services/university/university.service';
 // Repository
-import { StudentRepository } from './core/repositories/student/student.repository';
-import { UniversityRepository } from './core/repositories/university/university.repository';
-import {StudentSchema,UniversitySchema} from './core/schema/schema';
+import { StudentRepository } from './core/repositories/student.repository';
+import { UniversityRepository } from './core/repositories/university.repository';
+import { StudentSchema } from './core/schemas/student';
+import { UniversitySchema } from './core/schemas/university';
+
 
 @Module({
   imports: [

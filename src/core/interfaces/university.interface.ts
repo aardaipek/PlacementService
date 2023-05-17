@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { Student } from 'src/core/schema/schema';
+import { Student } from '../schemas/student';
 
 export interface IUniversity extends Document{
     readonly name: string;

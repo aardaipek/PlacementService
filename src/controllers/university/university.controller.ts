@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UniversityService } from '../../services/university/university.service';
 import { CreateUniversityDto } from '../../core/dtos/create.university.dto';
-import { UniversityRepository } from '../../core/repositories/university/university.repository';
+import { UniversityRepository } from '../../core/repositories/university.repository';
 
 @Controller('api/university')
 export class UniversityController {

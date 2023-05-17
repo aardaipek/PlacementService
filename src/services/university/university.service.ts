@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { RequestService } from '../request/request.service';
-import { DatabaseService } from '../../core/repositories/database.service';
 import { CreateUniversityDto } from '../../core/dtos/create.university.dto';
 
 @Injectable()
 export class UniversityService {
   constructor(
     private readonly requestService: RequestService,
-    //private readonly database: DatabaseService,
   ) {}
 
   public async getUniversities(country = 'turkey') {
@@ -20,18 +18,4 @@ export class UniversityService {
 
     return orderedUniversities;
   }
-
-  // public async insertUniversity() {
-  //   const universityData = await this.getUniversities();
-  //   try {
-  //     await Promise.all(
-  //       universityData.map(async(university) => {
-  //         await this.database.insertUniversity(university);
-  //       }),
-  //     );
-  //     return true;
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // }
 }
