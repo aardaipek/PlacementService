@@ -6,21 +6,19 @@ import { UniversityController } from './controllers/university/university.contro
 import { ExamController } from './controllers/exam/exam.controller';
 import { RequestService } from './services/request/request.service';
 import { HttpModule } from '@nestjs/axios';
-import { ValidationService } from './services/validation/validation.service';
-import { DatabaseService } from './services/database/database.service';
+import { UtilService } from './services/utils/util.service';
 import { ExamService } from './services/exam/exam.service';
 import { UniversityService } from './services/university/university.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  StudentSchema,
-  UniversitySchema,
-} from './services/database/schema/schema';
+import {StudentSchema,UniversitySchema} from './core/schema/schema';
 import { StudentService } from './services/student/student.service';
+import { StudentRepository } from './core/repositories/student/student.repository';
+import { UniversityRepository } from './core/repositories/university/university.repository';
 
 @Module({
   imports: [
     HttpModule,
-    MongooseModule.forRoot("mongodb+srv://admin:admin@university.0a0kcgt.mongodb.net/?retryWrites=true&w=majority"),
+    MongooseModule.forRoot(process.env.MONGO_DB_URL),
     MongooseModule.forFeature([
       { name: 'student', schema: StudentSchema },
       { name: 'university', schema: UniversitySchema },
@@ -28,15 +26,16 @@ import { StudentService } from './services/student/student.service';
   ],
   controllers: [
     AppController,
-    StudentController,
     UniversityController,
     ExamController,
+    StudentController,
   ],
   providers: [
     AppService,
     RequestService,
-    ValidationService,
-    DatabaseService,
+    UtilService,
+    StudentRepository,
+    UniversityRepository,
     ExamService,
     UniversityService,
     StudentService,

@@ -9,17 +9,17 @@ import {
   Body,
 } from '@nestjs/common';
 import { UniversityService } from '../../services/university/university.service';
-import { DatabaseService } from '../../services/database/database.service';
-import { CreateUniversityDto } from '../../services/database/dto/createUniversityDTO/create.university.dto';
+import { CreateUniversityDto } from '../../core/dtos/create.university.dto';
+import { UniversityRepository } from '../../core/repositories/university/university.repository';
 
-@Controller('university')
+@Controller('api/university')
 export class UniversityController {
   constructor(
     private readonly universityService: UniversityService,
-    private readonly database: DatabaseService,
+    private readonly database: UniversityRepository,
   ) {}
 
-  @Get()
+  @Get('all')
   public async GetUniversities(@Req() request: Request) {
     try {
       const universities = await this.database.getAllUniversity();
@@ -29,7 +29,7 @@ export class UniversityController {
     }
   }
 
-  @Post()
+  @Post('loadUniversity')
   public async InsertUniversity() {
     const universityData = await this.universityService.getUniversities();
     try {

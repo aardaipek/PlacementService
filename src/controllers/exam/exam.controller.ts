@@ -1,17 +1,17 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ValidationService } from '../../services/validation/validation.service';
+import { UtilService } from '../../services/utils/util.service';
 import { ExamService } from '../../services/exam/exam.service';
 
-@Controller('exam')
+@Controller('api/exam')
 export class ExamController {
   constructor(
-    private readonly validationService: ValidationService,
+    private readonly utilService: UtilService,
     private readonly examService: ExamService,
   ) {}
 
-  @Get('startExam/:examDate')
+  @Get('start/:examDate')
   public async StartExam(@Param('examDate') examDate: string) {
-    const date = this.validationService.formatDate(examDate);
+    const date = this.utilService.formatDate(examDate);
 
     const results = await this.examService.takeExam(date);
 

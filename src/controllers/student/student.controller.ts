@@ -9,14 +9,14 @@ import {
   Request,
 } from '@nestjs/common';
 import { RequestService } from '../../services/request/request.service';
-import { CreateStudentDto } from '../../services/database/dto/createStudentDTO/create.student.dto';
-import { DatabaseService } from '../../services/database/database.service';
+import { CreateStudentDto } from '../../core/dtos/create.student.dto';
+import { StudentRepository } from '../../core/repositories/student/student.repository';
 
-@Controller('student')
+@Controller('api/student')
 export class StudentController {
   constructor(
     private readonly requestService: RequestService,
-    private readonly database: DatabaseService,
+    private readonly database: StudentRepository,
   ) {}
 
   @Get(':id')
@@ -29,7 +29,7 @@ export class StudentController {
     }
   }
 
-  @Get()
+  @Get('all')
   public async GetAllStudents(@Req() request: Request) {
     try{
       const students = await this.database.getAllStudents();
@@ -39,7 +39,7 @@ export class StudentController {
     }
   }
 
-  @Post()
+  @Post('create')
   public async AddStudent(@Body() data: CreateStudentDto) {
     try{
       const newStudent = await this.database.createStudent(data);

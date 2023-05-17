@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
-import { Student } from "../../schema/schema";
+import { Student } from "../schema/schema";
 
 export class CreateUniversityDto {
     @IsString()

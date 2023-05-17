@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ValidationService {
+export class UtilService {
   public formatDate(date) {
     const newDate = this._formatDate(date);
     const regex = /^\d{4}\/\d{2}\/\d{2}$/;

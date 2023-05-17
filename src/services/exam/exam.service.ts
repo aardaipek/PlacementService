@@ -1,22 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { RequestService } from '../request/request.service';
-import { DatabaseService } from '../database/database.service';
-import { UpdateUniversityDto } from '../database/dto/updateUniversityDTO/update.university.dto';
-import { CreateStudentDto } from '../database/dto/createStudentDTO/create.student.dto';
-import { Student } from '../database/schema/schema';
+import { UpdateUniversityDto } from '../../core/dtos/update.university.dto';
+import { CreateStudentDto } from '../../core/dtos/create.student.dto';
+import { Student } from '../../core/schema/schema';
+import { StudentRepository } from '../../core/repositories/student/student.repository';
+import { UniversityRepository } from '../../core/repositories/university/university.repository';
 @Injectable()
 export class ExamService {
   constructor(
     private readonly requestService: RequestService,
-    private readonly database: DatabaseService,
+    private readonly studentRepository: StudentRepository,
+    private readonly universityRepository: UniversityRepository,
   ) {}
 
   public async takeExam(date) {
     const titles = await this.requestService.getTitles(date);
 
-    const students = await this.database.getAllStudents();
+    const students = await this.studentRepository.getAllStudents();
 
-    const universities = await this.database.getAllUniversity();
+    const universities = await this.universityRepository.getAllUniversity();
 
     students.map((student) => {
       const name = student.name + '_' + student.lastname;
@@ -38,11 +40,11 @@ export class ExamService {
           score: student.score,
         };
         suitableUniversity.students.push(studentObject);
-        await this.database.updateUniversity(suitableUniversity.id,suitableUniversity);
+        await this.universityRepository.updateUniversity(suitableUniversity.id,suitableUniversity);
       }
     }));
 
-    const finalResult = await this.database.getAllUniversity();
+    const finalResult = await this.universityRepository.getAllUniversity();
     return finalResult;
   }
 
